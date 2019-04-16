@@ -14,6 +14,9 @@ public interface ProductCategoryDao {
     @Select("SELECT id, t.`name` FROM tbl_product_category t where t.parent = #{parentId} ORDER BY orders LIMIT #{count}")
     List<ProductCategory> findChildrenList(@Param("parentId")Integer parentId, @Param("count")int limit);
 
-    @Select("SELECT id,name,tree_path,grade FROM tbl_product_category where id = #{productCategoryId}")
+    @Select("SELECT id,name,tree_path treePath,grade FROM tbl_product_category where id = #{productCategoryId}")
     ProductCategory findById(@Param("productCategoryId") Integer productCategoryId);
+
+    @Select("SELECT id, t.`name`, tree_path treePath, grade FROM tbl_product_category t where id in (${ids})")
+    List<ProductCategory> findParentCategories(@Param("ids") String treePath);
 }

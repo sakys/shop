@@ -48,6 +48,13 @@ public class FreemarkerConfig {
     @Autowired
     private  GoodsListDirective goodsListDirective;
 
+    @Autowired
+    private  ProductCategoryParentListDirective productCategoryParentListDirective;
+
+    @Autowired
+    private  AttributeListDirective attributeListDirective;
+
+
     @PostConstruct // bean初始化后执行此方法
     public void setSharedVariable() throws Exception {
         configuration.setTagSyntax(configuration.AUTO_DETECT_TAG_SYNTAX);
@@ -63,6 +70,8 @@ public class FreemarkerConfig {
         configuration.setSharedVariable("article_category_root_list",articleCategoryRootListDirective);
         configuration.setSharedVariable("article_list",articleListDirective);
         configuration.setSharedVariable("goods_list",goodsListDirective);
+        configuration.setSharedVariable("product_category_parent_list",productCategoryParentListDirective);
+        configuration.setSharedVariable("attribute_list",attributeListDirective);
     }
 
 }

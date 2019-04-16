@@ -29,14 +29,18 @@ public class UserController extends BaseController {
     public ResultInfo login(String userName, String password,
                             String verifyCode, HttpServletRequest request, HttpServletResponse response) {
 
-        String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-        String cartKey = WebUtils.getCookie(request, Constant.CART_COOKIE_KEY);
-        LoginIndentity loginIndentity = memberService.login(userName, password, verifyCode, sessionVerifyCode, cartKey);
+        try {
+            String sessionVerifyCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+            String cartKey = WebUtils.getCookie(request, Constant.CART_COOKIE_KEY);
+            LoginIndentity loginIndentity = memberService.login(userName, password, verifyCode, sessionVerifyCode, cartKey);
 
-        if (StringUtils.isNoneBlank(loginIndentity.getCartKey())) {
-            WebUtils.addCookie(request, response, Constant.CART_COOKIE_KEY, loginIndentity.getCartKey());
+            if (StringUtils.isNoneBlank(loginIndentity.getCartKey())) {
+                WebUtils.addCookie(request, response, Constant.CART_COOKIE_KEY, loginIndentity.getCartKey());
+            }
+            request.getSession().setAttribute(Constant.USER_SESSION_KEY, loginIndentity);
+        } catch (Exception e) {
+            return failure(0);
         }
-        request.getSession().setAttribute(Constant.USER_SESSION_KEY, loginIndentity);
 
         return success("登陆成功");
     }

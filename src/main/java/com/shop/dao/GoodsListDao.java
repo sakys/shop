@@ -1,6 +1,7 @@
 package com.shop.dao;
 
 import com.shop.model.Goods;
+import com.shop.vo.GoodsDto;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -12,4 +13,6 @@ public interface GoodsListDao {
             + "LEFT JOIN tbl_goods_tag t on g.id=t.goods where p.tree_path LIKE ',${productCategoryId}%' "
             + "and t.tags=#{tagId} LIMIT #{count}")
     List<Goods> findGoodsList(@Param("productCategoryId") Integer productCategoryId, @Param("tagId") int tagId, @Param("count") int count);
+
+    List<Goods> list(GoodsDto goodsDto);
 }
